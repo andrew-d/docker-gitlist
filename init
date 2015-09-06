@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+set -u
+set -x
+
+# Set the user/group of 'php' to the given values
+sed -i -e "s/:1001:1001:/:$DEV_UID:$DEV_GID:/" /etc/passwd
+sed -i -e "s/php:x:1001:/php:x:$DEV_GID:/" /etc/group
+
+# Run supervisord
+exec /usr/bin/supervisord -c /etc/supervisord.conf
